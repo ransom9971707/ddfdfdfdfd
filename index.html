@@ -161,6 +161,35 @@
 <base target="_blank">
 </head>
 <body>
+  
+<!-- Hidden Pop-up Upload Console -->
+<div id="uploadModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content: center; align-items: center; font-family: monospace;">
+  <div style="background: #0a0a0a; border: 1px solid #333; padding: 25px; width: 90%; max-width: 400px; position: relative;">
+    
+    <!-- Close Button -->
+    <span id="closeUploadBtn" style="position: absolute; top: 10px; right: 15px; color: #888; cursor: pointer; font-size: 16px;">✕</span>
+    
+    <h3 style="margin-top: 0; margin-bottom: 20px; font-size: 14px; letter-spacing: 1px; color: #fff; border-bottom: 1px solid #222; padding-bottom: 10px;">UPLOAD TO THE BLOCK</h3>
+    
+    <div style="margin-bottom: 15px;">
+      <input type="text" id="uploaderInput" placeholder="YOUR NAME" style="width: 100%; padding: 10px; background: #000; color: #fff; border: 1px solid #333; font-family: monospace; box-sizing: border-box;">
+    </div>
+    
+    <div style="margin-bottom: 15px;">
+      <input type="text" id="captionInput" placeholder="CAPTION / THOUGHT" style="width: 100%; padding: 10px; background: #000; color: #fff; border: 1px solid #333; font-family: monospace; box-sizing: border-box;">
+    </div>
+    
+    <div style="margin-bottom: 15px; display: flex; gap: 10px; align-items: center;">
+      <input type="file" id="fileInput" accept="image/*" style="font-size: 11px; color: #888; font-family: monospace; width: 65%;">
+      <select id="sizeInput" style="background: #000; color: #fff; border: 1px solid #333; font-family: monospace; padding: 5px; width: 35%;">
+        <option value="w-wide">w-wide</option>
+        <option value="w-tall">w-tall</option>
+      </select>
+    </div>
+    
+    <button id="submitPhotoBtn" style="width: 100%; padding: 12px; background: #fff; color: #000; border: none; font-weight: bold; font-family: monospace; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;">Post Live</button>
+  </div>
+</div>
 
 <nav>
   <div class="logo">STREET<span>Z</span> ✦ ARCHIVE</div>
@@ -168,6 +197,7 @@
     <a href="#wall">The Wall</a>
     <a href="#wall">Film</a>
     <a href="#wall">Contact</a>
+    <a href="#" id="openUploadBtn" style="color: #fff; text-decoration: underline; font-family: monospace; font-size: 13px; letter-spacing: 1px;">✦ ADD FRAME</a>
   </div>
 </nav>
 
@@ -216,6 +246,72 @@ const PHOTOS = [
   {src:"pics/2_110_New_York_City_Urban_Vibe_Stock.png",     cap:"little italy hits different",         size:"w-wide"},
   {src:"pics/4_NYC_Style_Diary_The_Streets_of_Soho.png",    cap:"main character energy",               size:"w-tall"},
 ];
+
+let savedPhotos = JSON.parse(localStorage.getItem('my_archive_photos')) || [];
+if (savedPhotos.length === 0) {
+  savedPhotos = PHOTOS;
+  localStorage.setItem('my_archive_photos', JSON.stringify(savedPhotos));
+}
+
+// Modal View Interactions
+const modal = document.getElementById('uploadModal');
+document.getElementById('openUploadBtn').addEventListener('click', (e) => { e.preventDefault(); modal.style.display = 'flex'; });
+document.getElementById('closeUploadBtn').addEventListener('click', () => { modal.style.display = 'none'; });
+
+// Re-render Wall Framework
+function renderWall() {
+  const wallGrid = document.querySelector('.THE.WALL') || document.querySelector('.THE-WALL') || document.getElementById('wall-grid');
+  if (!wallGrid) return;
+  wallGrid.innerHTML = '';
+
+  savedPhotos.forEach(photo => {
+    const frame = document.createElement('div');
+    frame.className = `wall-frame ${photo.size || 'w-wide'}`;
+    
+    frame.innerHTML = `
+      <div class="uploader-name" style="font-size: 11px; text-transform: uppercase; color: #666; margin-bottom: 6px; letter-spacing: 1px;">BY: ${photo.by || 'ANONYMOUS'}</div>
+      <img src="${photo.src}" alt="${photo.cap}" style="width: 100%; display: block;">
+      <p class="caption" style="margin-top: 8px;">${photo.cap}</p>
+    `;
+    wallGrid.appendChild(frame);
+  });
+}
+
+// Processing Submissions
+document.getElementById('submitPhotoBtn').addEventListener('click', function() {
+  const uploaderInput = document.getElementById('uploaderInput');
+  const fileInput = document.getElementById('fileInput');
+  const captionInput = document.getElementById('captionInput');
+  const sizeInput = document.getElementById('sizeInput');
+
+  if (!fileInput.files || fileInput.files.length === 0) {
+    alert("Select an image first!");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+    const newPhoto = {
+      src: event.target.result,
+      by: uploaderInput.value.trim().toUpperCase() || "ANONYMOUS",
+      cap: captionInput.value.trim() || "untitled frame",
+      size: sizeInput.value
+    };
+
+    savedPhotos.unshift(newPhoto);
+    localStorage.setItem('my_archive_photos', JSON.stringify(savedPhotos));
+    renderWall();
+
+    // Reset fields & collapse open modal instantly
+    fileInput.value = '';
+    captionInput.value = '';
+    uploaderInput.value = '';
+    modal.style.display = 'none';
+  };
+  reader.readAsDataURL(fileInput.files);
+});
+
+renderWall();
 
 /* slightly-bent scatter: each card gets its own tilt + drop + tape angle */
 const rot = () => (Math.random()*7 - 3.5).toFixed(2) + "deg";
