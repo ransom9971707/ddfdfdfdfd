@@ -1,253 +1,266 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>STREETZ ✦ MY NYC ARCHIVE</title>
-  <style>
-    /* Dark aesthetic to match Kimi's original framing style */
-    body {
-      background-color: #000;
-      color: #fff;
-      font-family: monospace;
-      margin: 0;
-      padding: 20px;
-    }
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    h1 {
-      letter-spacing: 2px;
-      margin-bottom: 5px;
-    }
-    
-    /* Upload Panel Styling */
-    #upload-panel {
-      padding: 20px;
-      border: 1px dashed #333;
-      margin: 20px auto 40px auto;
-      max-width: 600px;
-      background: #0a0a0a;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    .form-group label {
-      display: block;
-      margin-bottom: 5px;
-      color: #888;
-      font-size: 12px;
-      text-transform: uppercase;
-    }
-    .form-group input[type="text"], .form-group select {
-      width: 100%;
-      padding: 10px;
-      background: #111;
-      color: #fff;
-      border: 1px solid #333;
-      box-sizing: border-box;
-      font-family: monospace;
-    }
-    #submitPhotoBtn {
-      background: #fff;
-      color: #000;
-      border: none;
-      padding: 12px 24px;
-      font-weight: bold;
-      cursor: pointer;
-      text-transform: uppercase;
-      font-family: monospace;
-      width: 100%;
-    }
-    #submitPhotoBtn:hover {
-      background: #ccc;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STREETZ ✦ MY NYC ARCHIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0d0f;
+    --paper:#f6f2e9;
+    --ink:#111;
+    --pink:#ff2e88;
+    --taxi:#ffd400;
+    --cyan:#37e6ff;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:#f0f0f0;
+    font-family:'Space Grotesk',sans-serif;
+    overflow-x:hidden;
+    cursor:crosshair;
+  }
+  /* film grain */
+  body::after{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.07;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  }
+  ::selection{background:var(--pink);color:#000}
 
-    /* Core Dynamic Wall Grid Layout */
-    .THE-WALL {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 30px;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px 0;
-    }
-    
-    /* Wall Elements styling */
-    .wall-frame {
-      border: 1px solid #1a1a1a;
-      padding: 15px;
-      background: #050505;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .uploader-tag {
-      font-size: 11px;
-      color: #ff3e3e; /* Distinct color for attribution */
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 10px;
-      border-bottom: 1px solid #111;
-      padding-bottom: 5px;
-    }
-    .photo-wrapper img {
-      width: 100%;
-      height: auto;
-      display: block;
-      filter: grayscale(10%);
-    }
-    .caption-tag {
-      font-size: 13px;
-      margin-top: 12px;
-      color: #aaa;
-      line-height: 1.4;
-    }
-  </style>
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:18px 28px;mix-blend-mode:difference;
+  }
+  .logo{font-family:'Archivo Black',sans-serif;font-size:1.15rem;letter-spacing:.05em;color:#fff}
+  .logo span{color:var(--taxi)}
+  .nav-links{display:flex;gap:26px}
+  .nav-links a{color:#fff;text-decoration:none;font-size:.8rem;letter-spacing:.22em;text-transform:uppercase}
+  .nav-links a:hover{color:var(--pink)}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+    padding:120px 5vw 60px;position:relative;
+  }
+  .hero .kick{
+    color:var(--cyan);letter-spacing:.35em;font-size:.78rem;text-transform:uppercase;margin-bottom:14px;
+  }
+  h1{
+    font-family:'Archivo Black',sans-serif;
+    font-size:clamp(3rem,11.5vw,10.5rem);
+    line-height:.92;text-transform:uppercase;letter-spacing:-.02em;
+  }
+  h1 .line{display:block;overflow:hidden}
+  h1 .line span{display:inline-block;transform:translateY(110%);animation:rise 1s cubic-bezier(.19,1,.22,1) forwards}
+  h1 .line:nth-child(2) span{animation-delay:.12s;color:var(--pink)}
+  h1 .line:nth-child(3) span{animation-delay:.24s;-webkit-text-stroke:2px #f0f0f0;color:transparent}
+  @keyframes rise{to{transform:translateY(0)}}
+  .hero-sub{
+    margin-top:26px;max-width:420px;color:#9a9a9a;font-size:1rem;line-height:1.6;
+  }
+  .hero-sub b{color:var(--taxi)}
+  .scroll-hint{
+    position:absolute;bottom:34px;left:5vw;display:flex;align-items:center;gap:12px;
+    font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:#777;
+  }
+  .scroll-hint .bar{width:52px;height:1px;background:#555;overflow:hidden;position:relative}
+  .scroll-hint .bar::after{content:"";position:absolute;inset:0;background:var(--pink);animation:slide 1.6s ease-in-out infinite}
+  @keyframes slide{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+
+  /* ---------- MARQUEE ---------- */
+  .marquee{
+    background:var(--taxi);color:#000;overflow:hidden;white-space:nowrap;
+    padding:10px 0;transform:rotate(-1.2deg);margin:20px -2vw 0;
+    border-top:2px solid #000;border-bottom:2px solid #000;
+  }
+  .marquee-track{display:inline-block;animation:mq 22s linear infinite;font-family:'Archivo Black',sans-serif;font-size:.95rem;letter-spacing:.12em}
+  .marquee-track em{font-style:normal;color:var(--pink);margin:0 14px}
+  @keyframes mq{to{transform:translateX(-50%)}}
+
+  /* ---------- GALLERY ---------- */
+  .gallery{
+    padding:110px 5vw 140px;display:flex;flex-wrap:wrap;gap:3.2vw 2.6vw;
+    justify-content:center;align-items:flex-start;position:relative;
+    background:
+      radial-gradient(600px 400px at 85% 10%, rgba(255,46,136,.09), transparent 60%),
+      radial-gradient(700px 500px at 10% 90%, rgba(55,230,255,.07), transparent 60%);
+  }
+  .section-title{
+    width:100%;text-align:center;font-family:'Archivo Black',sans-serif;
+    font-size:clamp(1.8rem,4.5vw,3.2rem);text-transform:uppercase;margin-bottom:40px;
+  }
+  .section-title span{color:var(--pink)}
+  .polaroid{
+    background:var(--paper);padding:12px 12px 52px;
+    box-shadow:0 14px 34px rgba(0,0,0,.55), 0 2px 6px rgba(0,0,0,.4);
+    position:relative;transition:transform .45s cubic-bezier(.19,1,.22,1), box-shadow .45s;
+    cursor:pointer;opacity:0;transform:translateY(60px) rotate(var(--rot));
+  }
+  .polaroid.in{opacity:1;transform:translateY(var(--drop)) rotate(var(--rot));
+    transition:opacity .8s ease, transform .8s cubic-bezier(.19,1,.22,1)}
+  .polaroid:hover{
+    transform:translateY(calc(var(--drop) - 16px)) rotate(0deg) scale(1.04) !important;
+    box-shadow:0 34px 70px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08);
+    z-index:10;
+  }
+  .polaroid img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover;filter:saturate(1.08) contrast(1.04);background:#222}
+  .polaroid .cap{
+    position:absolute;bottom:12px;left:0;right:0;text-align:center;
+    font-family:'Caveat',cursive;font-size:1.35rem;color:#333;transform:rotate(-1deg);
+  }
+  .polaroid .tape{
+    position:absolute;top:-12px;left:50%;transform:translateX(-50%) rotate(var(--trot));
+    width:86px;height:26px;background:rgba(255,212,0,.75);
+    box-shadow:0 1px 3px rgba(0,0,0,.3);
+    clip-path:polygon(3% 0,97% 4%,100% 92%,2% 100%);
+  }
+  .polaroid .num{
+    position:absolute;top:16px;right:-10px;font-family:'Archivo Black',sans-serif;
+    font-size:.62rem;color:var(--pink);letter-spacing:.15em;transform:rotate(90deg);transform-origin:right top;
+  }
+  .w-wide{flex:0 1 340px}
+  .w-tall{flex:0 1 270px}
+
+  /* ---------- LIGHTBOX ---------- */
+  .lightbox{
+    position:fixed;inset:0;z-index:1000;background:rgba(8,8,10,.92);backdrop-filter:blur(10px);
+    display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;
+    opacity:0;pointer-events:none;transition:opacity .35s;
+  }
+  .lightbox.open{opacity:1;pointer-events:auto}
+  .lightbox img{max-width:88vw;max-height:76vh;object-fit:contain;border:10px solid var(--paper);box-shadow:0 30px 90px rgba(0,0,0,.8)}
+  .lightbox .lb-cap{font-family:'Caveat',cursive;font-size:1.7rem;color:var(--taxi)}
+  .lb-close{
+    position:absolute;top:24px;right:30px;background:none;border:2px solid #fff;color:#fff;
+    font-family:'Space Grotesk',sans-serif;font-size:.75rem;letter-spacing:.25em;padding:10px 18px;
+    text-transform:uppercase;cursor:pointer;
+  }
+  .lb-close:hover{background:var(--pink);border-color:var(--pink);color:#000}
+  .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:2.6rem;cursor:pointer;padding:20px;opacity:.6}
+  .lb-nav:hover{opacity:1;color:var(--pink)}
+  .lb-prev{left:12px}.lb-next{right:12px}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:70px 5vw;text-align:center;border-top:1px solid #222;
+    font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;color:#666;
+  }
+  footer b{color:var(--taxi)}
+
+  @media(max-width:640px){
+    .nav-links{display:none}
+    .w-wide,.w-tall{flex:1 1 78vw}
+  }
+</style>
 </head>
 <body>
 
-  <header>
-    <h1>STREETZ ✦ MY NYC ARCHIVE</h1>
-    <p>shot on the streets ✦ open source timeline ✦ nyc forever</p>
-  </header>
-
-  <!-- MULTI-INPUT UPLOAD INTERFACE -->
-  <div id="upload-panel">
-    <h3 style="margin-top: 0; letter-spacing: 1px; text-transform: uppercase; font-size: 14px; border-bottom: 1px solid #222; padding-bottom: 10px;">✦ Paste a Slide onto the Wall</h3>
-    
-    <div class="form-group">
-      <label>1. Who is catching this frame? (Your Name)</label>
-      <input type="text" id="uploaderInput" placeholder="anonymous user...">
-    </div>
-
-    <div class="form-group">
-      <label>2. Select Asset File</label>
-      <input type="file" id="fileInput" accept="image/*" style="color: #888;">
-    </div>
-    
-    <div class="form-group">
-      <label>3. Caption / Thought State</label>
-      <input type="text" id="captionInput" placeholder="e.g., lower east side, running out of film...">
-    </div>
-    
-    <div class="form-group">
-      <label>4. Frame Format Aspect</label>
-      <select id="sizeInput">
-        <option value="w-wide">Wide Landscape (w-wide)</option>
-        <option value="w-tall">Tall Portrait (w-tall)</option>
-      </select>
-    </div>
-
-    <button id="submitPhotoBtn">Post Frame Live</button>
-    <div id="formFeedback" style="margin-top: 10px; color: #00ff00; font-size: 12px; text-align: center;"></div>
+<nav>
+  <div class="logo">STREET<span>Z</span> ✦ ARCHIVE</div>
+  <div class="nav-links">
+    <a href="#wall">The Wall</a>
+    <a href="#wall">Film</a>
+    <a href="#wall">Contact</a>
   </div>
+</nav>
 
-  <h2 style="text-align: center; font-weight: normal; letter-spacing: 3px; font-size: 16px; margin-top: 60px; color: #666;">THE WALL ✦ CHRONOLOGICAL ENTRIES</h2>
+<header class="hero">
+  <div class="kick">est. whenever ✦ shot on the block</div>
+  <h1>
+    <span class="line"><span>MY CITY,</span></span>
+    <span class="line"><span>MY LENS,</span></span>
+    <span class="line"><span>NO RULES.</span></span>
+  </h1>
+  <p class="hero-sub">a little archive of frames i caught wandering the concrete jungle. <b>bent, taped &amp; hung</b> exactly how they fell out my camera roll. scroll for the wall ↓</p>
+  <div class="scroll-hint"><div class="bar"></div> keep scrolling</div>
+</header>
 
-  <!-- DYNAMIC RENDER BLOCK GRID -->
-  <div id="wall-grid" class="THE-WALL"></div>
+<div class="marquee">
+  <div class="marquee-track" id="mq"></div>
+</div>
 
-  <script>
-    // 1. Core Default Hardcoded Kimi Array Configurations
-    const DEFAULT_PHOTOS = [
-      {src:"pics/1_Vibrant_Nighttime_Photos_of_Times.png",      cap:"times sq at 2am, no thoughts",        size:"w-wide", by:"KIMI AI ARCHIVE"},
-      {src:"pics/2_Busy_People_Walking_on_Brooklyn_Bridge.png", cap:"golden hour >>> everything else",     size:"w-tall", by:"KIMI AI ARCHIVE"},
-      {src:"pics/3_75_800_New_York_City_Lights_Stock.png",      cap:"neon drowned, didn't wanna be saved", size:"w-wide", by:"KIMI AI ARCHIVE"},
-      {src:"pics/4_New_York_City_Photography_Guide_Best.png",   cap:"the city said pose",                  size:"w-tall", by:"KIMI AI ARCHIVE"},
-      {src:"pics/1_Roaming_SoHo_With_New_York_s_Stylish.png",   cap:"soho fits check ✔",                   size:"w-wide", by:"KIMI AI ARCHIVE"},
-      {src:"pics/3_Golden_hour_at_The_Brooklyn_Bridge.png",     cap:"walked the bridge, found peace",      size:"w-tall", by:"KIMI AI ARCHIVE"},
-      {src:"pics/2_110_New_York_City_Urban_Vibe_Stock.png",     cap:"little italy hits different",         size:"w-wide", by:"KIMI AI ARCHIVE"},
-      {src:"pics/4_NYC_Style_Diary_The_Streets_of_Soho.png",    cap:"main character energy",               size:"w-tall", by:"KIMI AI ARCHIVE"},
-    ];
+<main class="gallery" id="wall">
+  <h2 class="section-title">THE <span>WALL</span> ✦ 001–008</h2>
+  <!-- polaroids get injected by JS so u can just edit the PHOTOS list -->
+</main>
 
-    // 2. State Controller: Sync Memory across storage pipelines
-    let savedPhotos = JSON.parse(localStorage.getItem('my_archive_photos'));
-    if (!savedPhotos || savedPhotos.length === 0) {
-      savedPhotos = DEFAULT_PHOTOS;
-      localStorage.setItem('my_archive_photos', JSON.stringify(savedPhotos));
-    }
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" onclick="closeLB()">close ✕</button>
+  <button class="lb-nav lb-prev" onclick="stepLB(-1)">←</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-cap" id="lbCap"></div>
+  <button class="lb-nav lb-next" onclick="stepLB(1)">→</button>
+</div>
 
-    // 3. Unlimited Rendering loop engine
-    function renderWall() {
-      const wallGrid = document.getElementById('wall-grid');
-      if (!wallGrid) return;
-      
-      // Wipe the container to safely rewrite array components cleanly
-      wallGrid.innerHTML = ''; 
+<footer>shot on the streets ✦ developed in the group chat ✦ <b>nyc forever</b></footer>
 
-      savedPhotos.forEach(photo => {
-        const frame = document.createElement('div');
-        frame.className = `wall-frame ${photo.size || 'w-wide'}`; 
-        
-        // Assembled HTML containing user metadata + photo layout
-        frame.innerHTML = `
-          <div>
-            <div class="uploader-tag">✦ CAPTURED BY: ${photo.by || 'ANONYMOUS'}</div>
-            <div class="photo-wrapper">
-              <img src="${photo.src}" alt="${photo.cap}">
-            </div>
-          </div>
-          <div class="caption-tag">“ ${photo.cap} ”</div>
-        `;
-        wallGrid.appendChild(frame);
-      });
-    }
+<script>
+/* ================= EDIT YOUR PICS HERE =================
+   drop your photos in the pics/ folder next to this file,
+   then just change the file names below. add or remove
+   lines, the wall re-arranges itself. keep captions unhinged. */
+const PHOTOS = [
+  {src:"pics/1_Vibrant_Nighttime_Photos_of_Times.png",      cap:"times sq at 2am, no thoughts",        size:"w-wide"},
+  {src:"pics/2_Busy_People_Walking_on_Brooklyn_Bridge.png", cap:"golden hour >>> everything else",     size:"w-tall"},
+  {src:"pics/3_75_800_New_York_City_Lights_Stock.png",      cap:"neon drowned, didn't wanna be saved", size:"w-wide"},
+  {src:"pics/4_New_York_City_Photography_Guide_Best.png",   cap:"the city said pose",                  size:"w-tall"},
+  {src:"pics/1_Roaming_SoHo_With_New_York_s_Stylish.png",   cap:"soho fits check ✔",                   size:"w-wide"},
+  {src:"pics/3_Golden_hour_at_The_Brooklyn_Bridge.png",     cap:"walked the bridge, found peace",      size:"w-tall"},
+  {src:"pics/2_110_New_York_City_Urban_Vibe_Stock.png",     cap:"little italy hits different",         size:"w-wide"},
+  {src:"pics/4_NYC_Style_Diary_The_Streets_of_Soho.png",    cap:"main character energy",               size:"w-tall"},
+];
 
-    // 4. Form Submission tracking runtime
-    document.getElementById('submitPhotoBtn').addEventListener('click', function() {
-      const uploaderInput = document.getElementById('uploaderInput');
-      const fileInput = document.getElementById('fileInput');
-      const captionInput = document.getElementById('captionInput');
-      const sizeInput = document.getElementById('sizeInput');
-      const feedback = document.getElementById('formFeedback');
+/* slightly-bent scatter: each card gets its own tilt + drop + tape angle */
+const rot = () => (Math.random()*7 - 3.5).toFixed(2) + "deg";
+const drop = () => (Math.random()*46 - 10).toFixed(0) + "px";
+const trot = () => (Math.random()*16 - 8).toFixed(1) + "deg";
 
-      // Validations
-      if (!fileInput.files || fileInput.files.length === 0) {
-        alert("Please map an image asset file to post.");
-        return;
-      }
+const wall = document.querySelector(".gallery");
+PHOTOS.forEach((p,i)=>{
+  const d = document.createElement("div");
+  d.className = "polaroid " + p.size;
+  d.style.setProperty("--rot", rot());
+  d.style.setProperty("--drop", drop());
+  d.style.setProperty("--trot", trot());
+  d.innerHTML = `<div class="tape"></div><span class="num">NO.${String(i+1).padStart(3,"0")}</span>
+                 <img src="${p.src}" alt="${p.cap}" loading="lazy"><div class="cap">${p.cap}</div>`;
+  d.addEventListener("click", ()=> openLB(i));
+  wall.appendChild(d);
+});
 
-      const file = fileInput.files[0];
-      const reader = new FileReader();
+/* fade in on scroll */
+const io = new IntersectionObserver(es=>{
+  es.forEach((e)=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} });
+},{threshold:.15});
+document.querySelectorAll(".polaroid").forEach(el=>io.observe(el));
 
-      feedback.textContent = "Developing submission onto block standard...";
+/* marquee content */
+const phrase = "FRESH FRAMES <em>✦</em> STRAIGHT OFF THE SD CARD <em>✦</em> NYC FOREVER <em>✦</em> NO PERMISSION NEEDED <em>✦</em> ";
+document.getElementById("mq").innerHTML = phrase.repeat(6);
 
-      reader.onload = function(event) {
-        const base64Image = event.target.result;
-        
-        // Generate payload combining text values + user name metrics
-        const newPhoto = {
-          src: base64Image,
-          by: uploaderInput.value.trim().toUpperCase() || "ANONYMOUS UNIT",
-          cap: captionInput.value.trim() || "uncaptioned timestamp frame",
-          size: sizeInput.value
-        };
-
-        // Inject new content to the top position array layout
-        savedPhotos.unshift(newPhoto);
-
-        // Store configuration snapshot persistently inside the client machine state
-        localStorage.setItem('my_archive_photos', JSON.stringify(savedPhotos));
-
-        // Execute structural frame update on-demand
-        renderWall();
-
-        // Reset system entry configurations
-        fileInput.value = '';
-        captionInput.value = '';
-        uploaderInput.value = '';
-        feedback.textContent = "POSTED SUCCESSFUL! REFRESH TO TEST PERSISTENCE.";
-        setTimeout(() => { feedback.textContent = ''; }, 4000);
-      };
-
-      // Read target binary configurations into browser engine format strings
-      reader.readAsDataURL(file);
-    });
-
-    // Execute baseline view mapping instantly
-    renderWall();
-  </script>
+/* lightbox */
+let cur = 0;
+const lb = document.getElementById("lightbox");
+function openLB(i){ cur = i; showLB(); lb.classList.add("open"); document.body.style.overflow="hidden"; }
+function closeLB(){ lb.classList.remove("open"); document.body.style.overflow=""; }
+function stepLB(n){ cur = (cur + n + PHOTOS.length) % PHOTOS.length; showLB(); }
+function showLB(){
+  document.getElementById("lbImg").src = PHOTOS[cur].src;
+  document.getElementById("lbCap").textContent = PHOTOS[cur].cap;
+}
+lb.addEventListener("click", e=>{ if(e.target === lb) closeLB(); });
+document.addEventListener("keydown", e=>{
+  if(!lb.classList.contains("open")) return;
+  if(e.key === "Escape") closeLB();
+  if(e.key === "ArrowLeft") stepLB(-1);
+  if(e.key === "ArrowRight") stepLB(1);
+});
+</script>
 </body>
 </html>
